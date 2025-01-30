@@ -1,0 +1,28 @@
+.trackButton {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.trackButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.tracked {
+  fill: #2563eb;
+  color: #2563eb;
+}
+
+.untracked{
+  color: #003368;
+}
+
+.box {
+  height: 100px;
+}
