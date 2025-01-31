@@ -5,22 +5,23 @@ import {toggleTracking} from '@/lib/store/adSlice';
 import styles from '../styles/TrackButton.module.css';
 import {toast} from 'sonner';
 import {Ad} from "@/lib/types/ad";
+import React from "react";
 
 interface TrackButtonProps {
     ad: Ad;
     disabled: boolean;
 }
 
-export const TrackButton = ({ad, disabled}: TrackButtonProps) => {
+export const TrackButton = ({ ad, disabled }: TrackButtonProps) => {
     const dispatch = useDispatch();
     const trackedAds = useSelector((state: RootState) => state.ads.trackedAds);
-    const isTracked = trackedAds.includes(ad.ad_id);
+    const isTracked = !!trackedAds[ad.ad_id];
 
     const handleClick = (e: React.MouseEvent) => {
-        if (disabled) return;
+        if(disabled) return;
         e.preventDefault();
         e.stopPropagation();
-        dispatch(toggleTracking(ad.ad_id));
+        dispatch(toggleTracking(ad));
 
         if (!isTracked) {
             toast.success('Zapracen oglas ', {

@@ -12,5 +12,5 @@ export interface Ad {
 }
 
 export interface AdState {
-  trackedAds: number[];
+  trackedAds: Record<number, Ad>;
 }

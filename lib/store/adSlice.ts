@@ -1,22 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AdState } from '@/lib/types/ad';
+import { Ad, AdState } from '../types/ad';
 
 const initialState: AdState = {
-  trackedAds: [],
+  trackedAds: {},
 };
 
 export const adSlice = createSlice({
   name: 'ads',
   initialState,
   reducers: {
-    toggleTracking: (state, action: PayloadAction<number>) => {
-      const adId = action.payload;
-      const index = state.trackedAds.indexOf(adId);
-      
-      if (index === -1) {
-        state.trackedAds.push(adId);
+    toggleTracking: (state, action: PayloadAction<Ad>) => {
+      const ad = action.payload;
+      if (state.trackedAds[ad.ad_id]) {
+        delete state.trackedAds[ad.ad_id];
       } else {
-        state.trackedAds.splice(index, 1);
+        state.trackedAds[ad.ad_id] = ad;
       }
     },
   },

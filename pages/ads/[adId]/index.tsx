@@ -4,6 +4,7 @@ import AdDetails from "@/components/AdComponents/AdDetails";
 import AdCard from "@/components/AdComponents/AdCard";
 import styles from "@/styles/AdView.module.css";
 import Link from "next/link";
+import {GetServerSideProps} from "next";
 
 interface AdViewProps {
     ad: Ad;
@@ -38,13 +39,40 @@ export default function AdView({ad, error}: AdViewProps) {
     );
 }
 
-AdView.getInitialProps = async ({query}: { query: { adId?: string } }) => {
-    const res = await fetch(`http://localhost:3000/api/ad/${query.adId}`);
-    const data = await res.json();
+export const getServerSideProps: GetServerSideProps = async ({query}: { query: { adId?: string } }) => {
+    try {
+        if (!query.adId) {
+            return {
+                notFound: true
+            };
+        }
 
-    if (res.status === 404) {
-        return {error: data, ad: data};
+        const res = await fetch(`http://localhost:3000/api/ad/${query.adId}`);
+        const data = await res.json();
+
+        if (res.status === 404) {
+            return {
+                props: {
+                    error: data,
+                    ad: data
+                }
+            };
+        }
+
+        return {
+            props: {
+                ad: data
+            }
+        };
+    } catch (error) {
+        console.error('Error fetching ad:', error);
+        return {
+            props: {
+                error: {
+                    error_code: 'fetch_error'
+                },
+                ad: null
+            }
+        };
     }
-
-    return {ad: data};
-};
+}

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { Star, Home } from 'lucide-react';
 import styles from '../styles/Layout.module.css';
+import {ReactNode} from "react";
 
 interface LayoutProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export const Layout = ({ children }: LayoutProps) => {

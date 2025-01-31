@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ads } from "../../../ads";
+import { ads } from "@/ads";
 import { Ad } from '@/lib/types/ad';
 
 interface ErrorResponse {
   error_code: string;
 }
 
-export default function handler(
+export default function GET(
   req: NextApiRequest,
   res: NextApiResponse<Ad | ErrorResponse>
 ) {

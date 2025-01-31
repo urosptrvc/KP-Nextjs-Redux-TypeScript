@@ -11,7 +11,7 @@ export default function AdList({ ads }: AdListProps) {
     const router = useRouter();
 
     const handleAdClick = (ad_id: number) => {
-        router.push(`/ads/${ad_id}`);
+        router.push(`/ads/${ad_id}`).catch((err) => console.error(err));
     };
 
     return (

@@ -9,6 +9,15 @@
   margin-bottom: 70px;
 }
 
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
 .ad {
   display: flex;
   align-items: center;
@@ -22,15 +31,6 @@
 
 .ad:hover {
     cursor: pointer;
-}
-
-
-.content {
-  flex: 1;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
 .backLink {
@@ -57,14 +57,5 @@
   .ad {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .image {
-    width: 100%;
-    height: 200px;
-  }
-
-  .content {
-    padding: 0;
   }
 }
