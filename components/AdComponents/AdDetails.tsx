@@ -2,6 +2,7 @@ import {Ad} from "@/lib/types/ad";
 import styles from "@/styles/AdView.module.css";
 import Link from "next/link";
 import AdCard from "@/components/AdComponents/AdCard";
+import AdImage from "@/components/AdComponents/AdImage";
 
 interface Props {
     ad: Ad;
@@ -42,11 +43,9 @@ export default function AdDetails({ad}: Props) {
                 Opis: {ad.description}
             </div>
             <div className={styles.gallery}>
-                <img
-                    src={`https://kupujemprodajem.com${ad.photo_path1}`}
-                    alt=""
-                    className={styles.imageGallery}
-                    onError={(e) => e.currentTarget.src = "/noimage.jpg"}
+                <AdImage
+                    imageUrl={`https://kupujemprodajem.com${ad.photo_path1}`}
+                    style={{ objectFit: "contain" }}
                 />
             </div>
         </main>

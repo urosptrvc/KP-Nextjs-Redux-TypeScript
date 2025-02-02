@@ -14,65 +14,54 @@ interface AdViewProps {
 }
 
 export default function AdView({ad, error}: AdViewProps) {
-    if (error?.error_code === "ad_deleted") {
-        ad.name = "Oglas je obrisan";
-    }
+
+    const content = error?.error_code === "ad_deleted" ? (
+        <main className={styles.main}>
+            <div className={styles.arrow}>
+                <Link className={styles.back} href="/">
+                    &lt; Nazad na listu
+                </Link>
+            </div>
+            <AdCard
+                ad={ad}
+                disabled={true}
+                error={error}
+            />
+        </main>
+    ) : (
+        <AdDetails ad={ad}/>
+    );
+
     return (
         <>
             <Header title={`${ad.name} otvoren oglas`}/>
-            {error?.error_code === "ad_deleted" ? (
-                <main className={styles.main}>
-                    <div className={styles.arrow}>
-                        <Link className={styles.back} href="/">
-                            &lt; Nazad na listu
-                        </Link>
-                    </div>
-                    <AdCard
-                        ad={ad}
-                        disabled={true}
-                    />
-                </main>
-            ) : (
-                <AdDetails ad={ad}/>
-            )}
+            {content}
         </>
     );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({query}: { query: { adId?: string } }) => {
-    try {
-        if (!query.adId) {
-            return {
-                notFound: true
-            };
-        }
+    if (!query.adId) {
+        return {
+            notFound: true
+        };
+    }
 
-        const res = await fetch(`http://localhost:3000/api/ad/${query.adId}`);
-        const data = await res.json();
+    const res = await fetch(`http://localhost:3000/api/ad/${query.adId}`);
+    const data = await res.json();
 
-        if (res.status === 404) {
-            return {
-                props: {
-                    error: data,
-                    ad: data
-                }
-            };
-        }
-
+    if (res.status === 404) {
         return {
             props: {
+                error: data,
                 ad: data
             }
         };
-    } catch (error) {
-        console.error('Error fetching ad:', error);
-        return {
-            props: {
-                error: {
-                    error_code: 'fetch_error'
-                },
-                ad: null
-            }
-        };
     }
+
+    return {
+        props: {
+            ad: data
+        }
+    };
 }
